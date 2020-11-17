@@ -66,18 +66,16 @@ public class GroupChatClient {
     public static void main(String[] args) throws IOException {
 
         GroupChatClient chatClient = new GroupChatClient();
-        new Thread() {
-            public void run() {
-                while (true) {
-                    chatClient.readInfo();
-                    try {
-                        Thread.currentThread().sleep(3000);
-                    }catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        new Thread(() -> {
+            while (true) {
+                chatClient.readInfo();
+                try {
+                    Thread.currentThread().sleep(3000);
+                }catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
-        }.start();
+        }).start();
 
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
