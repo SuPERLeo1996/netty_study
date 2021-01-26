@@ -18,7 +18,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 public class NettyServer {
     public static void main(String[] args) throws InterruptedException {
 
-        NioEventLoopGroup bossEventLoop = new NioEventLoopGroup();
+        NioEventLoopGroup bossEventLoop = new NioEventLoopGroup(1);
         NioEventLoopGroup workerEventLoop = new NioEventLoopGroup();
         try {
             ServerBootstrap bootstrap = new ServerBootstrap();
@@ -32,6 +32,7 @@ public class NettyServer {
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     //给workerGroup的EventLoop 对应的管道设置处理器
                     .childHandler(new ChannelInitializer<SocketChannel>() {
+                        //给pipeline设置处理器
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(new NettyServerHandler());
